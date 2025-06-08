@@ -4,12 +4,9 @@
 const { BlobServiceClient } = require('@azure/storage-blob');
 const path = require('path');
 const fs = require('fs').promises;
+const mime = require('mime-types');
 
 const AZURE_STORAGE_CONNECTION_STRING = process.env.AZURE_STORAGE_CONNECTION_STRING;
-
-console.log("HELLO")
-console.log(AZURE_STORAGE_CONNECTION_STRING)
-
 const CONTAINER_NAME = 'assets';
 const LOCAL_DIR = path.resolve(__dirname, '.next/static');
 const BLOB_PREFIX = '_next/static/';
@@ -46,8 +43,14 @@ async function main() {
     const blobName = BLOB_PREFIX + relativePath;
     const blockBlobClient = containerClient.getBlockBlobClient(blobName);
 
-    console.log(`→ Uploading ${blobName}`);
-    await blockBlobClient.uploadFile(filePath);
+    // Detect content-type
+    const contentType = mime.lookup(filePath) || 'application/octet-stream';
+
+    console.log(`→ Uploading ${blobName} with content-type ${contentType}`);
+
+    await blockBlobClient.uploadFile(filePath, {
+      blobHTTPHeaders: { blobContentType: contentType }
+    });
   }
 
   console.log('✅ Upload completed');
