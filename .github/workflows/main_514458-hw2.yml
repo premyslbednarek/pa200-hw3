@@ -30,6 +30,8 @@ jobs:
 
       - name: 🛠 Build Next.js app
         run: npm run build
+        env:
+          POSTGRES_URL: ${{ secrets.POSTGRES_URL }}
 
       - name: ☁️ Upload static assets to Azure Blob Storage
         env:
