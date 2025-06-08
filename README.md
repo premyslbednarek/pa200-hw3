@@ -1,5 +1,7 @@
 # Next.js and Postgres Starter Template
 
+Code taken from [this repository](https://github.com/vercel/postgres-next-starter).
+
 ## Tech Stack
 
 - **Framework**: [Next.js](https://nextjs.org/)
