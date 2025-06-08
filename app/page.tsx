@@ -11,7 +11,7 @@ export default async function Home() {
     <div className="min-h-screen p-8 bg-gray-900">
       <main className="max-w-[350px] mx-auto">
         <h1 className="text-2xl font-bold mb-4 text-center text-gray-100">
-          Postgres Starter Changed
+          Postgres Starter, Hello World!
         </h1>
         <TodoList initialTodos={todos} />
       </main>
