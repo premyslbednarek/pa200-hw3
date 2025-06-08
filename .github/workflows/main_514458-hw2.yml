@@ -23,26 +23,23 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '18.x'
-          cache: 'pnpm'
-
-      - name: 📦 Install PNPM
-        run: npm install -g pnpm
+          cache: 'npm'
 
       - name: 📦 Install dependencies
-        run: pnpm install
+        run: npm ci
 
       - name: 🛠 Build Next.js app
-        run: pnpm build
+        run: npm run build
 
       - name: ☁️ Upload static assets to Azure Blob Storage
         env:
           AZURE_STORAGE_CONNECTION_STRING: ${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}
-        run: pnpm run upload
+        run: npm run upload
 
       - name: 📦 Zip artifact for deployment
-        run: zip -r release.zip . -x '*.git*' 'node_modules/*' '*.github/*'
+        run: zip -r release.zip . -x '*.git*' 'node_modules/*' '.github/*'
 
-      - name: 📤 Upload artifact for deployment job
+      - name: 📤 Upload artifact for deployment
         uses: actions/upload-artifact@v4
         with:
           name: next-app
@@ -59,7 +56,7 @@ jobs:
       contents: read
 
     steps:
-      - name: 📥 Download artifact from build
+      - name: 📥 Download artifact
         uses: actions/download-artifact@v4
         with:
           name: next-app
